@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Inventory</h1>
+<a href="{{ url_for('new_product') }}">Add Product</a>
+<table>
+    <tr>
+        <th>ID</th><th>Name</th><th>Quantity</th><th>Price</th><th>Actions</th>
+    </tr>
+    {% for p in products %}
+    <tr>
+        <td>{{ p.id if p.id is defined else p['id'] }}</td>
+        <td>{{ p.name if p.name is defined else p['name'] }}</td>
+        <td>{{ p.quantity if p.quantity is defined else p['quantity'] }}</td>
+        <td>{{ p.price if p.price is defined else p['price'] }}</td>
+        <td>
+            <a href="{{ url_for('edit_product', product_id=p.id if p.id is defined else p['id']) }}">Edit</a> |
+            <form action="{{ url_for('delete_product', product_id=p.id if p.id is defined else p['id']) }}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
